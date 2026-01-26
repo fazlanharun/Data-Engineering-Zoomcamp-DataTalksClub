@@ -62,6 +62,20 @@ volumes:
 
 If multiple answers are correct, select any 
 
+Answer: postgres:5432 and db:5432 both are correct. Can manually spin the docker container up with `docker-compose up -d` and go to http://localhost:8080
+and try the both configuration to connect pgadmin with postgres database. Login with email and password (Email: pgadmin@pgadmin.com Password: pgadmin).
+
+Servers" > "Register" > "Server
+
+Tab	            Field	                Value
+General	        Name	                ANY (eg: Postgres-Fazlan)
+Connection	    Host name/address	    db (or postgres)
+Connection	    Port	                5432
+Connection	    Maintenance database	ny_taxi
+Connection	    Username	            postgres
+Connection	    Password	            postgres
+
+![alt text](image-1.png)
 
 ## Prepare the Data
 
@@ -75,6 +89,15 @@ You will also need the dataset with zones:
 
 ```bash
 wget https://github.com/DataTalksClub/nyc-tlc-data/releases/download/misc/taxi_zone_lookup.csv
+```
+
+or if wget not install can use curl
+
+```bash
+curl -O https://d37ci6vzurychx.cloudfront.net/trip-data/green_tripdata_2025-11.parquet
+```
+```bash
+curl -O https://github.com/DataTalksClub/nyc-tlc-data/releases/download/misc/taxi_zone_lookup.csv
 ```
 
 ## Question 3. Counting short trips
