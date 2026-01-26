@@ -1,0 +1,48 @@
+services:
+  pg-database:
+    image: postgres:13
+    container_name: pg-database
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=ny_taxi
+    ports:
+      - "5432:5432"
+    # Ini part paling penting!
+    volumes:
+      - ./ny_data:/var/lib/postgresql/data
+    networks:
+      - taxi-network
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=admin
+    ports:
+      - "8080:80"
+    # pgAdmin pun boleh simpan config (connection details)
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    networks:
+      - taxi-network
+    depends_on:
+      - pg-database
+
+  ingest-pipeline:
+    build: 
+      context: .              
+      dockerfile: Dockerfile
+    image: ingest-pipeline:v01
+    container_name: ingest-pipeline-job
+    networks:
+      - taxi-network
+
+networks:
+  taxi-network:
+    driver: bridge
+
+# Kita declare named volume kat sini
+volumes:
+  pgadmin_data:

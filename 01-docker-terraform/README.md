@@ -100,8 +100,23 @@ curl -O https://d37ci6vzurychx.cloudfront.net/trip-data/green_tripdata_2025-11.p
 ```bash
 curl -O https://github.com/DataTalksClub/nyc-tlc-data/releases/download/misc/taxi_zone_lookup.csv
 ```
+After done create the pipeline, dockerfile and docker-compose
 
-## Question 3. Counting short trips
+`docker-compose up -d pg-database pgadmin`
+
+`docker-compose run ingest-pipeline \
+    --pg-host pg-database \
+    --year 2025 \
+    --month 11 \
+    --target-table green_taxi_2025_11
+`
+
+`docker-compose run ingest-pipeline \
+    --url "https://github.com/DataTalksClub/nyc-tlc-data/releases/download/misc/taxi_zone_lookup.csv" \
+    --target-table taxi_zone_lookup \
+    --pg-host pg-database
+`
+
 
 For the trips in November 2025 (lpep_pickup_datetime between '2025-11-01' and '2025-12-01', exclusive of the upper bound), how many trips had a `trip_distance` of less than or equal to 1 mile?
 
@@ -109,6 +124,16 @@ For the trips in November 2025 (lpep_pickup_datetime between '2025-11-01' and '2
 - 8,007
 - 8,254
 - 8,421
+
+Answe: 8007
+
+`
+SELECT COUNT(*)
+FROM public."green_taxi_2025_11"
+WHERE "trip_distance" <= 1.0
+AND "lpep_pickup_datetime" >= '2025-11-01' 
+AND "lpep_pickup_datetime" < '2025-12-01'
+`
 
 
 ## Question 4. Longest trip for each day
@@ -122,6 +147,16 @@ Use the pick up time for your calculations.
 - 2025-11-23
 - 2025-11-25
 
+Answer : 2025-11-14
+%%sql
+`
+SELECT CAST(lpep_dropoff_datetime AS DATE) AS dropoff_date, MAX(trip_distance) AS max_trip_dist
+FROM public.green_taxi_2025_11
+WHERE "trip_distance" < 100.0
+GROUP BY dropoff_date
+ORDER BY max_trip_dist DESC
+limit 1
+`
 
 ## Question 5. Biggest pickup zone
 
@@ -132,6 +167,16 @@ Which was the pickup zone with the largest `total_amount` (sum of all trips) on 
 - Morningside Heights
 - Forest Hills
 
+Answer : East Harlem North
+
+`SELECT z."Zone", SUM(g."total_amount")
+FROM public.green_taxi_2025_11 g
+INNER JOIN taxi_zone_lookup z
+ON g."PULocationID" = z."LocationID"
+GROUP BY z."Zone"
+ORDER BY SUM(g."total_amount") DESC
+LIMIT 1
+`
 
 ## Question 6. Largest tip
 
@@ -144,6 +189,20 @@ Note: it's `tip` , not `trip`. We need the name of the zone, not the ID.
 - East Harlem North
 - LaGuardia Airport
 
+Answer: Yorkville West
+`
+SELECT zdo."Zone", MAX(g."tip_amount")
+FROM green_taxi_2025_11 g
+INNER JOIN taxi_zone_lookup zpu
+ON g."PULocationID" = zpu."LocationID"
+INNER JOIN taxi_zone_lookup zdo
+ON g."DOLocationID" = zdo."LocationID"
+WHERE zpu."Zone" = 'East Harlem North'
+AND g."lpep_pickup_datetime" between '2025-11-01' and '2025-12-01'
+GROUP BY zdo."Zone"
+ORDER BY MAX(g."tip_amount") DESC
+LIMIT 1
+`
 
 ## Terraform
 
@@ -169,3 +228,5 @@ Answers:
 - terraform init, terraform run -auto-approve, terraform destroy
 - terraform init, terraform apply -auto-approve, terraform destroy
 - terraform import, terraform apply -y, terraform rm
+
+Answer: terraform init, terraform apply -auto-approve, terraform destroy
