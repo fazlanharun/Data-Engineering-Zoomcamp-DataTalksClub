@@ -67,13 +67,14 @@ and try the both configuration to connect pgadmin with postgres database. Login 
 
 Servers" > "Register" > "Server
 
-Tab	            Field	                Value
-General	        Name	                ANY (eg: Postgres-Fazlan)
-Connection	    Host name/address	    db (or postgres)
-Connection	    Port	                5432
-Connection	    Maintenance database	ny_taxi
-Connection	    Username	            postgres
-Connection	    Password	            postgres
+| Tab | Field | Value |
+| :--- | :--- | :--- |
+| General | Name | ANY (eg: Postgres-Fazlan) |
+| Connection | Host name/address | db (or postgres) |
+| Connection | Port | 5432 |
+| Connection | Maintenance database | ny_taxi |
+| Connection | Username | postgres |
+| Connection | Password | postgres |
 
 ![alt text](image-1.png)
 
