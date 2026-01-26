@@ -13,9 +13,8 @@ What's the version of `pip` in the image?
 
 Answer: 25.3
 
-type in terminal 'docker run -it --rm --entrypoint=bash python:3.13
-and then inside the container, type 'pip -V'
-
+type in terminal `docker run -it --rm --entrypoint=bash python:3.13`
+and then inside the container, type `pip -V`
 
 ![alt text](image.png)
 
