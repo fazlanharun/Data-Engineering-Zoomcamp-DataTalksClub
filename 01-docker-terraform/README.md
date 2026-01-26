@@ -147,8 +147,8 @@ Use the pick up time for your calculations.
 - 2025-11-23
 - 2025-11-25
 
-Answer : 2025-11-14
-%%sql
+Answer : 2025-11-14  
+
 `
 SELECT CAST(lpep_dropoff_datetime AS DATE) AS dropoff_date, MAX(trip_distance) AS max_trip_dist
 FROM public.green_taxi_2025_11
@@ -167,7 +167,7 @@ Which was the pickup zone with the largest `total_amount` (sum of all trips) on 
 - Morningside Heights
 - Forest Hills
 
-Answer : East Harlem North
+Answer : East Harlem North 
 
 `SELECT z."Zone", SUM(g."total_amount")
 FROM public.green_taxi_2025_11 g
@@ -189,7 +189,7 @@ Note: it's `tip` , not `trip`. We need the name of the zone, not the ID.
 - East Harlem North
 - LaGuardia Airport
 
-Answer: Yorkville West
+Answer: Yorkville West 
 `
 SELECT zdo."Zone", MAX(g."tip_amount")
 FROM green_taxi_2025_11 g
