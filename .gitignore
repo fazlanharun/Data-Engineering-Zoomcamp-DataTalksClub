@@ -1,4 +1,9 @@
 .venv
 notebooks;C
 *.ipynb_checkpoints
+*.json
 
+*.tfstate
+*.tfstate.backup
+.terraform/
+.terraform.lock.hcl
