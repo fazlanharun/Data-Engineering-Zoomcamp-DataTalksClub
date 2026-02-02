@@ -8,7 +8,6 @@ services:
       - POSTGRES_DB=ny_taxi
     ports:
       - "5432:5432"
-    # Ini part paling penting!
     volumes:
       - ./ny_data:/var/lib/postgresql/data
     networks:
@@ -22,7 +21,6 @@ services:
       - PGADMIN_DEFAULT_PASSWORD=admin
     ports:
       - "8080:80"
-    # pgAdmin pun boleh simpan config (connection details)
     volumes:
       - pgadmin_data:/var/lib/pgadmin
     networks:
