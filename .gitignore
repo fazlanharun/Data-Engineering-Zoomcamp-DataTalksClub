@@ -9,3 +9,4 @@ notebooks;C
 .terraform.lock.hcl
 
 *.parquet
+logs
