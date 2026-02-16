@@ -6,7 +6,7 @@ In this homework, we'll use the dbt project in `04-analytics-engineering/taxi_ri
 
 ## Setup
 
-1. Set up your dbt project following the [setup guide](../../../04-analytics-engineering/setup/)
+1. Set up your dbt project following the setup guide.
 2. Load the Green and Yellow taxi data for 2019-2020 into your warehouse
 3. Run `dbt build --target prod` to create all models and run tests
 
@@ -85,9 +85,7 @@ What happens when you run `dbt test --select fct_trips`?
 - dbt will pass the test with a warning about the new value
 - dbt will update the configuration to include the new value
 
-#### Question 2 Answer
-
-ANSWER:
+#### Question 2 Answer 
 - **dbt will fail the test, returning a non-zero exit code**
 
 This is due to the fact that the `accepted_values` test only allows the values passed (1, 2, 3, 4, or 5), therefore, any row with `payment_type = 6` will make the test fail, making dbt return a non-zero exit code.
