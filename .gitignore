@@ -7,3 +7,14 @@ notebooks;C
 *.tfstate.backup
 .terraform/
 .terraform.lock.hcl
+
+*.parquet
+logs
+
+.bruin.yml
+logs/runs
+logs/*.log
+__pycache__/
+*.py[cod]
+*.db
+.vscode
